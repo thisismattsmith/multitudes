@@ -1,0 +1,117 @@
+---
+import Base from '../layouts/Base.astro';
+
+const ventures = [
+  {
+    num: '01',
+    title: 'The Learning Dept.',
+    blurb: 'Scaling and supporting L&D teams.',
+    url: 'thelearningdept.com.au',
+    href: 'https://thelearningdept.com.au',
+    role: 'L&D · Operations',
+    year: '—',
+  },
+  {
+    num: '02',
+    title: 'Distil',
+    blurb: 'A studio helping self-employed experts — consultants, freelancers, and coaches — turn their expertise into training.',
+    url: 'distilstudio.com.au',
+    href: 'https://distilstudio.com.au',
+    role: 'Studio · Training',
+    year: '—',
+  },
+  {
+    num: '03',
+    title: 'Waymark',
+    blurb: 'Customer education strategy and execution for startups and scale-ups.',
+    url: 'waymark.com.au',
+    href: 'https://waymark.com.au',
+    role: 'Customer Education',
+    year: '—',
+  },
+  {
+    num: '04',
+    title: 'The eLearning Company',
+    blurb: 'Changing the model for eLearning development.',
+    url: 'elearningcompany.net',
+    href: 'https://elearningcompany.net',
+    role: 'eLearning',
+    year: '—',
+  },
+];
+
+const projects = [
+  {
+    num: '01',
+    title: 'A small publishing project',
+    blurb: 'Notes, essays, and occasional long-form on the practice of building.',
+    url: 'madebymultitudes.com/blog',
+    href: '/blog',
+    role: 'Writing',
+    year: '2022 —',
+  },
+  {
+    num: '02',
+    title: 'Advisory & angel work',
+    blurb: 'A handful of companies a year, where the work is mostly listening and clearing fog.',
+    url: 'by introduction',
+    href: '#',
+    role: 'Advisory',
+    year: '2021 —',
+  },
+];
+---
+
+<Base title="Made by Multitudes — A studio and holding company" page="home">
+  <section class="intro reveal">
+    <p class="mono" style="margin-bottom: 1rem;">Est. 2021 · A studio &amp; holding company</p>
+    <h1 class="hero-mark">made by multitudes</h1>
+    <p>
+      Made by Multitudes is the holding company for a quiet group of product and
+      service design projects. We build, we advise, and on a good week we write
+      a little about both.
+    </p>
+  </section>
+
+  <section style="margin-bottom: 5rem;">
+    <h2 class="section-label">Current Ventures</h2>
+    <ul class="index reveal-stagger">
+      {ventures.map((v) => (
+        <li class="index__item">
+          <a href={v.href}>
+            <span class="index__num">{v.num}</span>
+            <span class="index__title">
+              {v.title}
+              <em>{v.blurb}</em>
+              <span class="index__url">{v.url}</span>
+            </span>
+            <span class="index__meta">
+              {v.role}<br />{v.year}
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section>
+    <h2 class="section-label">Projects, Products &amp; Publications</h2>
+    <ul class="index">
+      {projects.map((p) => (
+        <li class="index__item">
+          <a href={p.href}>
+            <span class="index__num">{p.num}</span>
+            <span class="index__title">
+              {p.title}
+              <em>{p.blurb}</em>
+              <span class="index__url">{p.url}</span>
+            </span>
+            <span class="index__meta">
+              {p.role}<br />{p.year}
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</Base>

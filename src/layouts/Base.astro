@@ -1,0 +1,228 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  page?: 'home' | 'about' | 'blog';
+}
+
+const {
+  title,
+  description = 'Made by Multitudes — a product and service design studio. A holding company for a body of work.',
+  page,
+} = Astro.props;
+
+// Studio location for the footer readout. Change these to relocate the studio.
+const STUDIO = {
+  city: 'Ballarat',
+  region: 'VIC',
+  country: 'AU',
+  latitude: -37.5622,
+  longitude: 143.8503,
+  timezone: 'Australia/Melbourne',
+};
+
+// SSR fallback for the header — replaced on the client with a live local date.
+const fallbackHeaderStamp = new Date()
+  .toLocaleDateString('en-US', {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  })
+  .toUpperCase();
+
+// SSR fallback for the footer — Ballarat date, no live time, no weather yet.
+const fallbackFooterStamp = new Date().toLocaleDateString('en-AU', {
+  weekday: 'short',
+  day: 'numeric',
+  month: 'short',
+  year: 'numeric',
+  timeZone: STUDIO.timezone,
+});
+
+const year = new Date().getFullYear();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  </head>
+  <body>
+    <div class="shell">
+      <header class="site-header">
+        <a href="/" class="site-header__mark">Made by Multitudes</a>
+        <nav class="site-header__nav" aria-label="Primary">
+          <a href="/" aria-current={page === 'home' ? 'page' : undefined}>Index</a>
+          <a href="/about" aria-current={page === 'about' ? 'page' : undefined}>About</a>
+          <a href="/blog" aria-current={page === 'blog' ? 'page' : undefined}>Writing</a>
+        </nav>
+        <div class="site-header__meta">
+          <span id="header-date" aria-label="Today's date">{fallbackHeaderStamp}</span>
+        </div>
+      </header>
+
+      <main>
+        <slot />
+      </main>
+
+      <footer class="site-footer">
+        <div class="site-footer__col">
+          <div>Made by Multitudes</div>
+          <div>A studio &amp; holding company</div>
+          <div style="margin-top: 0.6rem;">© {year}</div>
+        </div>
+        <div class="site-footer__col site-footer__col--right">
+          <p
+            id="footer-readout"
+            class="readout-sentence"
+            data-lat={STUDIO.latitude}
+            data-lon={STUDIO.longitude}
+            data-tz={STUDIO.timezone}
+            data-city={STUDIO.city}
+            data-region={STUDIO.region}
+            data-country={STUDIO.country}
+            aria-label="Studio location, time, and weather"
+          >Operating globally, based in <strong>{STUDIO.city}, {STUDIO.region}, {STUDIO.country}</strong> where it is currently <strong>{fallbackFooterStamp}</strong>.</p>
+          <div class="readout-attribution">
+            Weather · <a href="https://open-meteo.com" rel="external nofollow">Open-Meteo</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+      // ---------------------------------------------------------------
+      // Header: user-local date, refreshed periodically to catch midnight.
+      // ---------------------------------------------------------------
+      const headerEl = document.getElementById('header-date');
+      if (headerEl) {
+        const renderHeader = () => {
+          headerEl.textContent = new Date()
+            .toLocaleDateString('en-US', {
+              weekday: 'short',
+              month: 'short',
+              day: 'numeric',
+              year: 'numeric',
+            })
+            .toUpperCase();
+        };
+        renderHeader();
+        setInterval(renderHeader, 5 * 60 * 1000);
+      }
+
+      // ---------------------------------------------------------------
+      // Footer readout: studio (Ballarat) date + live time + weather.
+      // Weather from Open-Meteo (https://open-meteo.com — CC BY 4.0).
+      // ---------------------------------------------------------------
+      const el = document.getElementById('footer-readout');
+      if (el) {
+        const lat = el.dataset.lat;
+        const lon = el.dataset.lon;
+        const tz = el.dataset.tz || 'Australia/Melbourne';
+        const city = el.dataset.city || '';
+        const region = el.dataset.region || '';
+        const country = el.dataset.country || '';
+
+        // WMO weather codes → short labels (https://open-meteo.com/en/docs).
+        const wmo: Record<number, string> = {
+          0: 'Clear',
+          1: 'Mainly clear',
+          2: 'Partly cloudy',
+          3: 'Overcast',
+          45: 'Fog',
+          48: 'Fog',
+          51: 'Drizzle',
+          53: 'Drizzle',
+          55: 'Drizzle',
+          56: 'Freezing drizzle',
+          57: 'Freezing drizzle',
+          61: 'Rain',
+          63: 'Rain',
+          65: 'Heavy rain',
+          66: 'Freezing rain',
+          67: 'Freezing rain',
+          71: 'Snow',
+          73: 'Snow',
+          75: 'Heavy snow',
+          77: 'Snow grains',
+          80: 'Rain showers',
+          81: 'Rain showers',
+          82: 'Heavy showers',
+          85: 'Snow showers',
+          86: 'Snow showers',
+          95: 'Thunderstorm',
+          96: 'Thunderstorm',
+          99: 'Thunderstorm',
+        };
+
+        const fmtDate = () =>
+          new Date().toLocaleDateString('en-AU', {
+            weekday: 'short',
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric',
+            timeZone: tz,
+          });
+
+        const fmtTime = () =>
+          new Date().toLocaleTimeString('en-AU', {
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true,
+            timeZone: tz,
+          });
+
+        let weatherFragment = '';
+
+        const render = () => {
+          const place = [city, region, country].filter(Boolean).join(', ');
+          const stamp = `${fmtDate()}, ${fmtTime()}`;
+          const weather = weatherFragment
+            ? ` and <strong>${weatherFragment}</strong>`
+            : '';
+          el.innerHTML =
+            `Operating globally, based in <strong>${place}</strong> ` +
+            `where it is currently <strong>${stamp}</strong>${weather}.`;
+        };
+
+        render();
+        setInterval(render, 30_000);
+
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&temperature_unit=celsius&timezone=${encodeURIComponent(
+          tz
+        )}`;
+
+        fetch(url)
+          .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+          .then((data) => {
+            const t = Math.round(data?.current?.temperature_2m);
+            const code = data?.current?.weather_code;
+            if (Number.isFinite(t) && code !== undefined) {
+              const label = wmo[code] || '—';
+              weatherFragment = `${t}°C, ${label}`;
+              render();
+            }
+          })
+          .catch(() => {
+            /* keep the place + date/time sentence in place */
+          });
+      }
+    </script>
+  </body>
+</html>
