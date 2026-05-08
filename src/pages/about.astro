@@ -1,105 +1,194 @@
 ---
 import Base from '../layouts/Base.astro';
+
+const principles = [
+  {
+    num: '01',
+    title: 'If it’s a business, it needs to make money.',
+    body: 'Money is the lifeblood of a business. We’re bootstrapped, so that means we need profit. There is no point in being in business if we’re not profitable, and we should take every step to be as profitable as possible.',
+  },
+  {
+    num: '02',
+    title: 'Not everything needs to make money.',
+    body: 'We need money to survive, but we do not need to wring every dollar out of an idea. In fact, we should do many things for fun, or because they will be useful. Whatever these things are, they are not businesses. We should never confuse the two. Every new idea we tackle must be tested with the question — is this a business or a side-project? — and that answer must be respected.',
+  },
+    {
+    num: '03',
+    title: 'We embrace contradiction, complexity and uncertainty',
+    body: 'What we make is connected to everything else. Whether it’s generating leads, developing skills, bringing extra value to clients, or some other benefit, what we create must make everything else better. We are one company before we are many.',
+  },
+  {
+    num: '04',
+    title: 'If it doesn’t help the whole, the part needs to go.',
+    body: 'What we make is connected to everything else. Whether it’s generating leads, developing skills, bringing extra value to clients, or some other benefit, what we create must make everything else better. We are one company before we are many.',
+  },
+  {
+    num: '05',
+    title: 'Be competent and committed.',
+    body: 'We do not start a business that we can’t run. We do not build a product we can’t maintain. If we decide to build, we’ve decided to maintain. Before we start to build, we make sure we have the knowledge and skills to do it. That does not mean that we do not adapt, stretch ourselves or grow.',
+  },
+];
 ---
 
-<Base title="About — Made by Multitudes" page="about">
-  <article class="shell shell--narrow" style="padding: 0;">
-    <header style="margin-bottom: 3.5rem;">
-      <p class="mono" style="margin-bottom: 1rem;">About</p>
-      <h1 style="max-width: 14ch;">
-        I am large, I contain multitudes.
-      </h1>
-      <p class="mono-line" style="margin-top: 0.8rem;">— Walt Whitman, by way of borrowed permission</p>
-    </header>
+<Base title="About — made by multitudes" page="about">
+  <article class="shell" style="padding-left: var(--gutter); padding-right: var(--gutter);">
 
-    <div class="prose">
-      <p>
-        Made by Multitudes is a small studio and a holding company for a few
-        related practices. The work splits roughly into product design,
-        service design, and the occasional advisory engagement. The name is a
-        confession that one person, even one studio, contains more than one
-        kind of work — and that the things we ship are made by many hands,
-        even when only one is paid.
-      </p>
+    <header class="about-header">
+      <div class="about-header__title">
+        <h1>Who? What? Why?</h1>
+        <p class="about-byline">Written by Matt Smith, May 2026.</p>
+      </div>
 
-      <p>
-        We started in 2021 with a single client and a domain name. Today we
-        run as a deliberately small operation — small enough to know every
-        project intimately, large enough to take on more than one at a time.
-        We do not have a stack of case studies for you to scroll. We have a
-        list of names, a few writings, and a working email address.
-      </p>
-
-      <h2>What the studio does</h2>
-
-      <p>
-        Mostly: we help teams figure out the shape of a thing before they
-        spend a year building it. Sometimes that's a product. More often,
-        once you look closely, it's a service — a set of human and software
-        steps strung together, with the software bits getting most of the
-        attention and the human bits getting most of the friction. We are
-        interested in the human bits.
-      </p>
-
-      <p>
-        We work best with founders and small teams in the first eighteen
-        months of an idea. We also do longer engagements with operating
-        companies who want a designer in the room when decisions get made,
-        not after.
-      </p>
-
-      <h2>How we work</h2>
-
-      <blockquote>
-        Work that takes longer to make tends to last longer. We try to
-        operate accordingly.
-      </blockquote>
-
-      <p>
-        Engagements run in monthly cycles. We bill by the month, not the
-        deliverable. We share work in progress weekly. We do not produce
-        decks unless someone needs one to convince someone else, in which
-        case we produce a good one.
-      </p>
-
-      <h2>Who is behind this</h2>
-
-      <p>
-        The studio is led by Matt Smith. Specific projects are made
-        alongside a rotating set of collaborators — engineers, writers,
-        researchers, illustrators — most of whom run their own small
-        practices. The multitudes in the name are real.
-      </p>
-
-      <dl class="about-grid">
+      <dl class="about-meta">
         <dt>Founded</dt>
-        <dd>2021</dd>
+        <dd>2026</dd>
 
-        <dt>Practice</dt>
-        <dd>Product &amp; service design, advisory</dd>
+        <dt>Operates</dt>
+        <dd>Globally</dd>
 
         <dt>Location</dt>
-        <dd>Distributed</dd>
+        <dd>
+          <a href="/acknowledge">Wadawurrung Country</a><br />
+          <span style="color: var(--ink-mute); font-size: 0.92em;">Ballarat, Victoria, Australia</span>
+        </dd>
 
-        <dt>Availability</dt>
-        <dd>Booking from Q3</dd>
+        <dt>Founder</dt>
+        <dd>Matt Smith</dd>
 
         <dt>Contact</dt>
         <dd>
-          <a href="mailto:hello@madebymultitudes.com">hello@madebymultitudes.com</a>
-        </dd>
-
-        <dt>Elsewhere</dt>
-        <dd>
-          <a href="https://thisismattsmith.com">thisismattsmith.com</a>,
-          <a href="https://github.com/thisismattsmith/">GitHub</a>,
-          <a href="https://www.linkedin.com/in/thisismattsmith/">LinkedIn</a>
+          <a href="mailto:matt@madebymultitudes.com">matt@madebymultitudes.com</a>
         </dd>
       </dl>
+    </header>
 
-      <p class="mono-line" style="margin-top: 3rem;">
-        Last updated · {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
-      </p>
+    <div class="about-body">
+      <div class="prose">
+        <p>
+          What do you do when you have too many ideas and too many things you
+          want to do?
+        </p>
+
+        <p>
+          You should stay in your lane. Find a niche and stick with it. When
+          you try to be everything to everyone, you’re nothing to no one. You
+          need to focus. Doing too many different things will pull you away
+          from your priorities.
+        </p>
+
+        <p>
+          That’s solid business advice. It makes sense. It’s also boring. My
+          brain is curious. It wants to learn about everything. I feel most
+          creative and useful when working on a few very different projects
+          at once. I’ve had a non-traditional career path which has left me
+          with different, yet complementary, skills. I don’t want to do one
+          thing — and honestly, I think I’m at my best when doing many
+          different things.
+        </p>
+
+        <p>
+          So how do you take that solid business advice and combine it with
+          a personality that fights against it?
+        </p>
+
+        <p>
+          You make Made by Multitudes.
+        </p>
+
+        <p>
+          Made by Multitudes is a business that creates businesses. You
+          could call us an innovation lab, a product design studio, or a
+          holding company. None of those quite fit. It’s more like an
+          experiment. The hypothesis is — you can build multiple brands
+          with complementary services in different niches, with different
+          buyers, and run them at the same time.
+        </p>
+
+        <p>
+          Every day we’re testing that.
+        </p>
+
+        <p>
+          We’re a neo-generalist business operating specialist brands. Not
+          a collection of disparate companies under one umbrella. Every
+          employee works for Made by Multitudes. They may have their
+          strengths and specific domain knowledge that means they work
+          with one brand more than the others, but they are part of one
+          team — a team that makes each other better through
+          diversification, collaboration and communication.
+        </p>
+      </div>
+    </div>
+
+    <section class="principles">
+      <h2 class="section-label">Our working principles</h2>
+      <ol class="principles__list">
+        {principles.map((p) => (
+          <li class="principles__item">
+            <span class="principles__num">{p.num}</span>
+            <div class="principles__content">
+              <h3 class="principles__title">{p.title}</h3>
+              <p class="principles__body">{p.body}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+<div class="about-body">
+      <div class="prose">
+        <h2>What's in a name?</h2>
+         
+
+        <p>
+          You should stay in your lane. Find a niche and stick with it. When
+          you try to be everything to everyone, you’re nothing to no one. You
+          need to focus. Doing too many different things will pull you away
+          from your priorities.
+        </p>
+
+        <p>
+          That’s solid business advice. It makes sense. It’s also boring. My
+          brain is curious. It wants to learn about everything. I feel most
+          creative and useful when working on a few very different projects
+          at once. I’ve had a non-traditional career path which has left me
+          with different, yet complementary, skills. I don’t want to do one
+          thing — and honestly, I think I’m at my best when doing many
+          different things.
+        </p>
+
+        <p>
+          So how do you take that solid business advice and combine it with
+          a personality that fights against it?
+        </p>
+
+        <p>
+          You make Made by Multitudes.
+        </p>
+
+        <p>
+          Made by Multitudes is a business that creates businesses. You
+          could call us an innovation lab, a product design studio, or a
+          holding company. None of those quite fit. It’s more like an
+          experiment. The hypothesis is — you can build multiple brands
+          with complementary services in different niches, with different
+          buyers, and run them at the same time.
+        </p>
+
+        <p>
+          Every day we’re testing that.
+        </p>
+
+        <p>
+          We’re a neo-generalist business operating specialist brands. Not
+          a collection of disparate companies under one umbrella. Every
+          employee works for Made by Multitudes. They may have their
+          strengths and specific domain knowledge that means they work
+          with one brand more than the others, but they are part of one
+          team — a team that makes each other better through
+          diversification, collaboration and communication.
+        </p>
+      </div>
     </div>
   </article>
 </Base>

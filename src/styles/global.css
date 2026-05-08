@@ -234,16 +234,17 @@ hr {
 
 .readout-sentence {
   margin: 0;
+  max-width: none;
   font-family: var(--mono);
   font-size: var(--t-xs);
   letter-spacing: 0.04em;
   text-transform: uppercase;
   font-weight: 400;
-  line-height: 1.55;
+  line-height: 1.6;
   color: var(--ink-mute);
-  text-align: right;
-  max-width: 52ch;
-  margin-left: auto;
+  text-align: justify;
+  text-align-last: left;
+  hyphens: none;
 }
 
 .readout-sentence strong {
@@ -251,19 +252,16 @@ hr {
   color: var(--ink-soft);
 }
 
-.readout-attribution {
-  margin-top: 0.7rem;
-  font-family: var(--mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--ink-mute);
-  opacity: 0.75;
-}
-
-.readout-attribution a {
+.readout-sentence a {
   color: inherit;
   text-decoration-color: var(--rule);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
+.readout-sentence a:hover {
+  color: var(--accent);
+  text-decoration-color: currentColor;
 }
 
 @media (max-width: 720px) {
@@ -291,31 +289,29 @@ hr {
   margin-top: 8rem;
   padding: 2rem 0 2.5rem;
   border-top: 1px solid var(--rule);
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  align-items: start;
 }
 
-.site-footer__col {
+.site-footer__sub {
+  margin-top: 0.9rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
   font-family: var(--mono);
-  font-size: var(--t-xs);
-  letter-spacing: 0.04em;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--ink-mute);
+  opacity: 0.75;
 }
 
-.site-footer__col a {
-  color: var(--ink-soft);
-  text-decoration: none;
+.site-footer__sub a {
+  color: inherit;
+  text-decoration-color: var(--rule);
 }
 
-.site-footer__col a:hover {
+.site-footer__sub a:hover {
   color: var(--accent);
-}
-
-.site-footer__col--right {
-  text-align: right;
 }
 
 /* -------- index list (homepage ventures, blog index) -------- */
@@ -328,7 +324,7 @@ hr {
 
 .index__item {
   display: grid;
-  grid-template-columns: 6ch 1fr 14ch;
+  grid-template-columns: 9ch 1fr 11ch;
   gap: 2rem;
   align-items: baseline;
   padding: 1.4rem 0;
@@ -339,11 +335,12 @@ hr {
   color: var(--accent);
 }
 
-.index__num {
+.index__est {
   font-family: var(--mono);
   font-size: var(--t-xs);
   color: var(--ink-mute);
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .index__title {
@@ -386,14 +383,42 @@ hr {
   color: var(--accent);
 }
 
-.index__meta {
+/* -------- status pill (active / acquired / for-sale / closed) -------- */
+.index__status {
   font-family: var(--mono);
   font-size: var(--t-xs);
-  color: var(--ink-mute);
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   text-align: right;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  justify-content: flex-end;
 }
+
+.status-dot {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+.status-active     { color: #4a7d4a; }   /* muted green */
+.status-acquired   { color: var(--accent); } /* ink-blue */
+.status-for-sale   { color: #b8842d; }   /* warm amber */
+.status-closed     { color: var(--ink-mute); } /* the existing grey */
+
+/* Optional pulse — uncomment if you want movement on the active dot.
+.status-active .status-dot {
+  animation: pulse-dot 2.4s ease-in-out infinite;
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.55; transform: scale(0.85); }
+}
+*/
 
 .index__item a {
   display: contents;
@@ -403,14 +428,15 @@ hr {
 
 @media (max-width: 720px) {
   .index__item {
-    grid-template-columns: 4ch 1fr;
+    grid-template-columns: auto 1fr;
     grid-template-rows: auto auto;
     gap: 0.4rem 1rem;
     padding: 1.2rem 0;
   }
-  .index__meta {
+  .index__status {
     grid-column: 2;
     text-align: left;
+    justify-content: flex-start;
   }
 }
 
@@ -529,43 +555,146 @@ hr {
 }
 
 /* -------- about specifics -------- */
-.about-grid {
+/* Header: title left, meta table right at desktop. Stacked on mobile.
+   Title comes first in the source, then table, then prose body — this
+   matches the desired stacking order on small screens. */
+.about-header {
   display: grid;
-  grid-template-columns: 14ch 1fr;
-  gap: 2rem;
-  margin: 2.5rem 0;
-  padding: 1.5rem 0;
-  border-top: 1px solid var(--rule);
+  grid-template-columns: 1.1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+  margin: 0 0 4rem;
+  padding-bottom: 2rem;
   border-bottom: 1px solid var(--rule);
 }
 
-.about-grid dt {
+.about-header__title {
+  /* nothing special — title and byline stack naturally */
+}
+
+.about-header__title h1 {
+  max-width: 12ch;
+}
+
+.about-byline {
+  margin-top: 1rem;
+  font-family: var(--mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+.about-meta {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  column-gap: 1.6rem;
+  row-gap: 0.55rem;
+  margin: 0;
+  padding-top: 0.6rem;
+}
+
+.about-meta dt {
   font-family: var(--mono);
   font-size: var(--t-xs);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--ink-mute);
-  padding-top: 0.15em;
+  align-self: baseline;
 }
 
-.about-grid dd {
+.about-meta dd {
   margin: 0;
   font-family: var(--body);
+  font-size: var(--t-sm);
+  color: var(--ink);
+  align-self: baseline;
 }
 
-.about-grid dt:not(:first-child),
-.about-grid dd:not(:nth-child(2)) {
-  margin-top: 0.9rem;
+.about-meta dd a {
+  color: var(--ink);
+  text-decoration-color: var(--rule);
+}
+
+.about-meta dd a:hover {
+  color: var(--accent);
+}
+
+.about-body {
+  max-width: 760px;
+}
+
+/* -------- working principles -------- */
+.principles {
+  margin-top: 6rem;
+}
+
+.principles__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.principles__item {
+  display: grid;
+  grid-template-columns: 9ch 1fr;
+  gap: 2rem;
+  align-items: baseline;
+  padding: 2rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.principles__num {
+  font-family: var(--mono);
+  font-size: var(--t-xs);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  padding-top: 0.4rem;
+}
+
+.principles__content {
+  max-width: 56ch;
+}
+
+.principles__title {
+  font-family: var(--display);
+  font-size: var(--t-md);
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+  margin: 0 0 0.6rem;
+  color: var(--ink);
+}
+
+.principles__body {
+  margin: 0;
+  font-family: var(--body);
+  font-size: var(--t-base);
+  line-height: 1.6;
+  color: var(--ink-soft);
+  max-width: none;
 }
 
 @media (max-width: 720px) {
-  .about-grid {
-    grid-template-columns: 1fr;
-    gap: 0.4rem;
+  .principles__item {
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+    padding: 1.5rem 0;
   }
-  .about-grid dd:not(:nth-child(2)) {
-    margin-top: 0.4rem;
-    margin-bottom: 0.6rem;
+  .principles__num {
+    padding-top: 0.3rem;
+  }
+}
+
+@media (max-width: 860px) {
+  .about-header {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .about-header__title h1 {
+    max-width: none;
   }
 }
 

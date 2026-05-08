@@ -4,7 +4,7 @@ import '../styles/global.css';
 interface Props {
   title: string;
   description?: string;
-  page?: 'home' | 'about' | 'blog';
+  page?: 'home' | 'about' | 'journal';
 }
 
 const {
@@ -14,10 +14,14 @@ const {
 } = Astro.props;
 
 // Studio location for the footer readout. Change these to relocate the studio.
+// `place_label` is what's shown to readers; `city`/`region`/`country` remain
+// available for any internal references that need them.
 const STUDIO = {
   city: 'Ballarat',
   region: 'VIC',
   country: 'AU',
+  place_label: 'Wadawurrung Country',
+  place_href: '/acknowledge',
   latitude: -37.5622,
   longitude: 143.8503,
   timezone: 'Australia/Melbourne',
@@ -70,7 +74,7 @@ const year = new Date().getFullYear();
         <nav class="site-header__nav" aria-label="Primary">
           <a href="/" aria-current={page === 'home' ? 'page' : undefined}>Index</a>
           <a href="/about" aria-current={page === 'about' ? 'page' : undefined}>About</a>
-          <a href="/blog" aria-current={page === 'blog' ? 'page' : undefined}>Writing</a>
+          <a href="/journal" aria-current={page === 'journal' ? 'page' : undefined}>Journal</a>
         </nav>
         <div class="site-header__meta">
           <span id="header-date" aria-label="Today's date">{fallbackHeaderStamp}</span>
@@ -82,26 +86,19 @@ const year = new Date().getFullYear();
       </main>
 
       <footer class="site-footer">
-        <div class="site-footer__col">
-          <div>Made by Multitudes</div>
-          <div>A studio &amp; holding company</div>
-          <div style="margin-top: 0.6rem;">© {year}</div>
-        </div>
-        <div class="site-footer__col site-footer__col--right">
-          <p
-            id="footer-readout"
-            class="readout-sentence"
-            data-lat={STUDIO.latitude}
-            data-lon={STUDIO.longitude}
-            data-tz={STUDIO.timezone}
-            data-city={STUDIO.city}
-            data-region={STUDIO.region}
-            data-country={STUDIO.country}
-            aria-label="Studio location, time, and weather"
-          >Operating globally, based in <strong>{STUDIO.city}, {STUDIO.region}, {STUDIO.country}</strong> where it is currently <strong>{fallbackFooterStamp}</strong>.</p>
-          <div class="readout-attribution">
-            Weather · <a href="https://open-meteo.com" rel="external nofollow">Open-Meteo</a>
-          </div>
+        <p
+          id="footer-readout"
+          class="readout-sentence"
+          data-lat={STUDIO.latitude}
+          data-lon={STUDIO.longitude}
+          data-tz={STUDIO.timezone}
+          data-place-label={STUDIO.place_label}
+          data-place-href={STUDIO.place_href}
+          aria-label="Made by Multitudes — studio location, time, and weather"
+        ><strong>Made by Multitudes</strong> &middot; Operating globally, based on <strong><a href={STUDIO.place_href}>{STUDIO.place_label}</a></strong> where it is currently <strong>{fallbackFooterStamp}</strong>.</p>
+        <div class="site-footer__sub">
+          <span>© {year}</span>
+          <span>Weather · <a href="https://open-meteo.com" rel="external nofollow">Open-Meteo</a></span>
         </div>
       </footer>
     </div>
@@ -135,9 +132,19 @@ const year = new Date().getFullYear();
         const lat = el.dataset.lat;
         const lon = el.dataset.lon;
         const tz = el.dataset.tz || 'Australia/Melbourne';
-        const city = el.dataset.city || '';
-        const region = el.dataset.region || '';
-        const country = el.dataset.country || '';
+        const placeLabel = el.dataset.placeLabel || '';
+        const placeHref = el.dataset.placeHref || '#';
+
+        // Tiny helper: avoid HTML injection from data attributes when
+        // we interpolate the place label into innerHTML.
+        const escape = (s: string) =>
+          s.replace(/[&<>"']/g, (c) => ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#39;',
+          }[c]!));
 
         // WMO weather codes → short labels (https://open-meteo.com/en/docs).
         const wmo: Record<number, string> = {
@@ -191,13 +198,14 @@ const year = new Date().getFullYear();
         let weatherFragment = '';
 
         const render = () => {
-          const place = [city, region, country].filter(Boolean).join(', ');
           const stamp = `${fmtDate()}, ${fmtTime()}`;
           const weather = weatherFragment
             ? ` and <strong>${weatherFragment}</strong>`
             : '';
+          const placeLink = `<a href="${escape(placeHref)}">${escape(placeLabel)}</a>`;
           el.innerHTML =
-            `Operating globally, based in <strong>${place}</strong> ` +
+            `<strong>Made by Multitudes</strong> &middot; ` +
+            `Operating globally, based on <strong>${placeLink}</strong> ` +
             `where it is currently <strong>${stamp}</strong>${weather}.`;
         };
 

@@ -1,12 +1,13 @@
 ---
-title: "On multitudes, and why one name covers many things"
-description: "A note on the name, the holding company, and why the studio resists a single tidy description."
-date: 2026-04-22
-tags: ["studio", "naming"]
+title: "It's all made by multitudes"
+description: "The founding letter."
+date: 2026-05-22
+tags: ["annual letter"]
 ---
 
-When I tell people what I do, the answer takes a few sentences. I design
-products. I also design services, which is a different muscle. I advise a
+No one is self-made. Nothing is done solo. 
+
+I design products. I also design services, which is a different muscle. I advise a
 few small companies. I write, when there is something worth writing.
 
 For years I tried to compress this down to a single line. The compression
