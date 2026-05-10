@@ -36,6 +36,14 @@
           "type": "boolean",
           "default": false
         },
+        "to": {
+          "type": "string",
+          "default": "All"
+        },
+        "author": {
+          "type": "string",
+          "default": "Matt Smith"
+        },
         "$schema": {
           "type": "string"
         }

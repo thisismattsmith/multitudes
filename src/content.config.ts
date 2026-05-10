@@ -9,6 +9,9 @@ const blog = defineCollection({
     date: z.coerce.date(),
     tags: z.array(z.string()).optional(),
     draft: z.boolean().optional().default(false),
+    // Memo metadata — populates the post page's TO and FROM fields.
+    to: z.string().optional().default('All'),
+    author: z.string().optional().default('Matt Smith'),
   }),
 });
 

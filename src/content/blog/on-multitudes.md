@@ -3,6 +3,8 @@ title: "It's all made by multitudes"
 description: "The founding letter."
 date: 2026-05-22
 tags: ["annual letter"]
+to: "All"
+author: "Matt Smith"
 ---
 
 No one is self-made. Nothing is done solo. 

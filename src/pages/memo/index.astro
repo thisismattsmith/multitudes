@@ -21,9 +21,9 @@ for (const p of posts) {
 const years = Object.keys(byYear).sort((a, b) => Number(b) - Number(a));
 ---
 
-<Base title="Journal — Made by Multitudes" page="journal">
+<Base title="Memos — Made by Multitudes" page="memo">
   <section class="intro reveal">
-    <p class="mono" style="margin-bottom: 1rem;">Journal</p>
+    <p class="mono" style="margin-bottom: 1rem;">Memos</p>
     <h1>Notes on the work, our progress and what we've learned.</h1>
     <p>
       Annual letters and occasional company updates.
@@ -33,10 +33,10 @@ const years = Object.keys(byYear).sort((a, b) => Number(b) - Number(a));
   {years.map((year) => (
     <section style="margin-bottom: 4rem;">
       <h2 class="section-label">{year}</h2>
-      <ul class="index index--journal">
+      <ul class="index index--memo">
         {byYear[year].map((p) => (
           <li class="index__item">
-            <a href={`/journal/${p.id}`}>
+            <a href={`/memo/${p.id}`}>
               <span class="index__est">{fmt(p.data.date)}</span>
               <span class="index__title">
                 {p.data.title}

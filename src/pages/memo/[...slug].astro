@@ -1,0 +1,81 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+
+  // Sort chronologically (oldest first) so form numbers are stable —
+  // the first published post is Form No. 01, the next is 02, etc.
+  const ordered = [...posts].sort(
+    (a, b) => a.data.date.valueOf() - b.data.date.valueOf()
+  );
+
+  return ordered.map((post, i) => ({
+    params: { slug: post.id },
+    props: {
+      post,
+      formNumber: String(i + 1).padStart(2, '0'),
+    },
+  }));
+}
+
+const { post, formNumber } = Astro.props;
+const { Content } = await render(post);
+
+// DD / MM / YY — bureaucratic short form for the DATE field.
+const memoDate = post.data.date.toLocaleDateString('en-AU', {
+  day: '2-digit',
+  month: '2-digit',
+  year: '2-digit',
+});
+
+// Year for the revision stamp.
+const memoRev = post.data.date.getFullYear();
+---
+
+<Base
+  title={`${post.data.title} — Made by Multitudes`}
+  description={post.data.description}
+  page="memo"
+>
+  <article class="post-memo">
+    <p class="post-memo__back">
+      <a href="/memo">← Memos</a>
+    </p>
+
+    <section class="post-memo__hero reveal">
+      <div class="post-memo__masthead">
+        <div class="post-memo__form-no">
+          FORM NO. {formNumber}<br />REV. {memoRev}
+        </div>
+        <div class="post-memo__banner">MADE BY MULTITUDES</div>
+        <h1 class="post-memo__title">Memorandum</h1>
+      </div>
+
+      <dl class="post-memo__fields">
+        <dt>To</dt>
+        <dd>: {post.data.to}</dd>
+
+        <dt>From</dt>
+        <dd>: {post.data.author}</dd>
+
+        <dt>Subject</dt>
+        <dd>: <span class="post-memo__subject">{post.data.title}</span></dd>
+
+        <dt>Date</dt>
+        <dd>: {memoDate}</dd>
+      </dl>
+    </section>
+
+    <div class="post-memo__body prose post-prose">
+      <Content />
+    </div>
+
+    <hr class="post-memo__rule" />
+
+    <p class="post-memo__back">
+      <a href="/memo">← Back to memos</a>
+    </p>
+  </article>
+</Base>

@@ -4,7 +4,7 @@ import '../styles/global.css';
 interface Props {
   title: string;
   description?: string;
-  page?: 'home' | 'about' | 'journal';
+  page?: 'home' | 'about' | 'memo';
 }
 
 const {
@@ -74,7 +74,7 @@ const year = new Date().getFullYear();
         <nav class="site-header__nav" aria-label="Primary">
           <a href="/" aria-current={page === 'home' ? 'page' : undefined}>Index</a>
           <a href="/about" aria-current={page === 'about' ? 'page' : undefined}>About</a>
-          <a href="/journal" aria-current={page === 'journal' ? 'page' : undefined}>Journal</a>
+          <a href="/memo" aria-current={page === 'memo' ? 'page' : undefined}>Memos</a>
         </nav>
         <div class="site-header__meta">
           <span id="header-date" aria-label="Today's date">{fallbackHeaderStamp}</span>
