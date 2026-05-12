@@ -1,0 +1,457 @@
+---
+import Base from '../layouts/Base.astro';
+
+const colors = [
+  { token: '--paper',      hex: '#f4f0e8', role: 'Background. Warm cream paper.' },
+  { token: '--paper-deep', hex: '#ece6da', role: 'Background, slightly deeper. Section breaks, hover fills.' },
+  { token: '--ink',        hex: '#161513', role: 'Body text, headings. The darkest ink.' },
+  { token: '--ink-soft',   hex: '#4a463f', role: 'Secondary text, footer prose, active link state.' },
+  { token: '--ink-mute',   hex: '#8a857a', role: 'Tertiary text, metadata labels, inactive states.' },
+  { token: '--rule',       hex: '#c9c2b3', role: 'Hairline dividers, section separators.' },
+  { token: '--accent',     hex: '#2a3f6e', role: 'Deep ink-blue. Hover states. Used sparingly.' },
+];
+
+const statuses = [
+  { name: 'Active',   color: '#4a7d4a', cls: 'status-active',   role: 'Currently operating ventures.' },
+  { name: 'Acquired', color: '#2a3f6e', cls: 'status-acquired', role: 'Ventures sold or merged.' },
+  { name: 'For Sale', color: '#b8842d', cls: 'status-for-sale', role: 'Available for acquisition.' },
+  { name: 'Closed',   color: '#8a857a', cls: 'status-closed',   role: 'Wound down. Kept on the list for transparency.' },
+];
+
+const typeRoles = [
+  { token: '--display', face: 'Momo Trust Display',  role: 'Display headlines. The hero "made by multitudes", page titles. Lowercase by default at display sizes; mixed case elsewhere. Single weight (400).' },
+  { token: '--body',    face: 'Manrope',             role: 'Body text, blurbs, intro paragraphs, about-page copy. Variable weight 300–800; default 400.' },
+  { token: '--post',    face: 'Crimson Pro',         role: 'Legacy serif. Available as an alternate post-body style. Currently unused on memo posts (those use Courier Prime).' },
+  { token: '--mono',    face: 'JetBrains Mono',      role: 'Chrome: nav, wordmark, section labels, metadata, URLs, footer readout. Weights 400 and 500.' },
+];
+
+const sizes = [
+  { token: '--t-xs',      value: '0.72rem',                role: 'Micro labels, mono captions, metadata.' },
+  { token: '--t-sm',      value: '0.84rem',                role: 'Small body, blurbs, attribution lines.' },
+  { token: '--t-base',    value: '1.0625rem',              role: 'Default body size.' },
+  { token: '--t-md',      value: '1.25rem',                role: 'Lead paragraphs, mid-size headings.' },
+  { token: '--t-lg',      value: '1.875rem',               role: 'Index titles, section headings.' },
+  { token: '--t-xl',      value: '2.75rem',                role: 'Page-level h1 (non-display).' },
+  { token: '--t-display', value: 'clamp(2.6rem, 6vw, 4.4rem)', role: 'Hero display. Fluid based on viewport.' },
+];
+
+const spacing = [
+  { token: '--measure', value: '64ch',                       role: 'Maximum reading line length for body prose.' },
+  { token: '--gutter',  value: 'clamp(1.25rem, 4vw, 3rem)',  role: 'Horizontal page padding. Fluid.' },
+];
+---
+
+<Base title="Style Guide — Made by Multitudes" page={undefined} noindex>
+  <article class="styleguide">
+
+    <header class="styleguide__header">
+      <p class="mono" style="margin-bottom: 1rem; color: var(--ink-mute);">Internal — Not Indexed</p>
+      <h1>Style Guide</h1>
+      <p class="styleguide__lede">
+        The visual system for madebymultitudes.com. Use this page to keep new
+        components and content consistent with the rest of the site. The page
+        itself is not linked from anywhere and is excluded from search engines.
+      </p>
+    </header>
+
+    <!-- =========================================================
+         TOKENS
+         ========================================================= -->
+    <section class="sg-section">
+      <h2 class="section-label">Tokens — Colour</h2>
+      <p class="sg-note">
+        All colour comes from CSS custom properties on <code>:root</code>.
+        Use the token, not the hex, in new CSS.
+      </p>
+
+      <table class="sg-table">
+        <thead>
+          <tr><th>Token</th><th>Hex</th><th>Sample</th><th>Role</th></tr>
+        </thead>
+        <tbody>
+          {colors.map((c) => (
+            <tr>
+              <td><code>{c.token}</code></td>
+              <td><code>{c.hex}</code></td>
+              <td><span class="sg-swatch" style={`background:${c.hex}`}></span></td>
+              <td>{c.role}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </section>
+
+    <!-- =========================================================
+         TYPEFACES
+         ========================================================= -->
+    <section class="sg-section">
+      <h2 class="section-label">Tokens — Type</h2>
+      <p class="sg-note">
+        Three primary faces. Each has one job. Don't mix display roles
+        (e.g. don't set body text in Momo Trust Display).
+      </p>
+
+      <table class="sg-table">
+        <thead>
+          <tr><th>Token</th><th>Face</th><th>Role</th></tr>
+        </thead>
+        <tbody>
+          {typeRoles.map((t) => (
+            <tr>
+              <td><code>{t.token}</code></td>
+              <td><strong>{t.face}</strong></td>
+              <td>{t.role}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <h3 class="sg-h3">Specimens</h3>
+
+      <div class="sg-specimen">
+        <p class="sg-specimen__label">Display — Momo Trust Display, lowercase</p>
+        <p class="sg-specimen__sample" style="font-family: var(--display); font-size: clamp(3rem, 7vw, 5rem); line-height: 1; letter-spacing: -0.02em;">
+          made by multitudes
+        </p>
+      </div>
+
+      <div class="sg-specimen">
+        <p class="sg-specimen__label">Body — Manrope, 17px / 1.55</p>
+        <p class="sg-specimen__sample" style="font-family: var(--body); font-size: 1.0625rem;">
+          We create products, services and brands that focus on learning and growth.
+          The body is set in Manrope, a humanist sans with generous proportions.
+        </p>
+      </div>
+
+      <div class="sg-specimen">
+        <p class="sg-specimen__label">Mono — JetBrains Mono, uppercase, tracked</p>
+        <p class="sg-specimen__sample" style="font-family: var(--mono); font-size: var(--t-xs); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-mute);">
+          Operating globally · Based on Wadawurrung Country · Active
+        </p>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         SIZE SCALE
+         ========================================================= -->
+    <section class="sg-section">
+      <h2 class="section-label">Tokens — Size &amp; Spacing</h2>
+
+      <table class="sg-table">
+        <thead>
+          <tr><th>Token</th><th>Value</th><th>Role</th></tr>
+        </thead>
+        <tbody>
+          {sizes.map((s) => (
+            <tr>
+              <td><code>{s.token}</code></td>
+              <td><code>{s.value}</code></td>
+              <td>{s.role}</td>
+            </tr>
+          ))}
+          {spacing.map((s) => (
+            <tr>
+              <td><code>{s.token}</code></td>
+              <td><code>{s.value}</code></td>
+              <td>{s.role}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </section>
+
+    <!-- =========================================================
+         INDEX ROW PATTERN
+         ========================================================= -->
+    <section class="sg-section">
+      <h2 class="section-label">Pattern — Index Row</h2>
+      <p class="sg-note">
+        The core layout used on the homepage (ventures, projects) and the
+        memo index. Three columns: <strong>est. date</strong> left,
+        <strong>title + blurb + url</strong> middle, <strong>status</strong> right.
+      </p>
+
+      <ul class="index" style="margin-top: 1.4rem;">
+        <li class="index__item">
+          <span class="index__est">est. 2026</span>
+          <span class="index__title">
+            Example Venture
+            <em>A one-sentence description of what the venture does. Plain prose, no marketing voice.</em>
+            <span class="index__url">example.com</span>
+          </span>
+          <span class="index__status status-active">
+            <span class="status-dot" aria-hidden="true"></span>
+            Active
+          </span>
+        </li>
+      </ul>
+
+      <p class="sg-note" style="margin-top: 1rem;">
+        On mobile (below 720px), the row collapses to two columns and the
+        status indicator moves underneath the title.
+      </p>
+    </section>
+
+    <!-- =========================================================
+         STATUS INDICATORS
+         ========================================================= -->
+    <section class="sg-section">
+      <h2 class="section-label">Pattern — Status</h2>
+      <p class="sg-note">
+        Each venture or project has one of four statuses. The status is set
+        via a class on the right-hand element of an index row. Add new
+        statuses sparingly — the value of a closed system is its meaning
+        being legible at a glance.
+      </p>
+
+      <table class="sg-table">
+        <thead>
+          <tr><th>Status</th><th>Class</th><th>Colour</th><th>Use for</th></tr>
+        </thead>
+        <tbody>
+          {statuses.map((s) => (
+            <tr>
+              <td>
+                <span class={`index__status ${s.cls}`} style="font-size: var(--t-xs);">
+                  <span class="status-dot" aria-hidden="true"></span>
+                  {s.name}
+                </span>
+              </td>
+              <td><code>.{s.cls}</code></td>
+              <td><code>{s.color}</code></td>
+              <td>{s.role}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </section>
+
+    <!-- =========================================================
+         LINKS
+         ========================================================= -->
+    <section class="sg-section">
+      <h2 class="section-label">Pattern — Links</h2>
+
+      <p class="sg-note">
+        Standard prose links inherit the ink colour and underline subtly. On
+        hover they shift to <code>--accent</code>.
+      </p>
+
+      <p style="margin-top: 1rem;">
+        Here is a paragraph with <a href="#">an example link</a> embedded in
+        it. Hover the link to see the colour shift.
+      </p>
+
+      <p class="sg-note" style="margin-top: 1.6rem;">
+        Navigation links are uppercase mono and use the active-state marker
+        <code>aria-current="page"</code>, which is styled with a leading <code>·</code>
+        marker. See the site header above for an active example.
+      </p>
+    </section>
+
+    <!-- =========================================================
+         MEMO HERO (POST PAGES)
+         ========================================================= -->
+    <section class="sg-section">
+      <h2 class="section-label">Component — Memo Hero (Posts Only)</h2>
+      <p class="sg-note">
+        The memo header treatment is <strong>scoped exclusively to memo
+        posts</strong>. It is not used elsewhere on the site. Modeled on a
+        declassified government memorandum: a corner form number, a banner
+        with the studio name, an italic "Memorandum" showpiece, and four
+        bureaucratic fields (TO, FROM, SUBJECT, DATE).
+      </p>
+      <ul class="sg-list">
+        <li><strong>Form number</strong> is derived from the post's chronological position. Oldest published = <code>FORM NO. 01</code>.</li>
+        <li><strong>TO</strong> is the <code>to:</code> frontmatter field (defaults to "All").</li>
+        <li><strong>FROM</strong> is the <code>author:</code> frontmatter field (defaults to "Matt Smith").</li>
+        <li><strong>SUBJECT</strong> is the post title, underlined for emphasis.</li>
+        <li><strong>DATE</strong> is the publish date in DD/MM/YY.</li>
+      </ul>
+      <p class="sg-note">
+        Post bodies inside the memo wrapper render in <strong>Courier Prime</strong>
+        with <strong>Special Elite</strong> section headings — the typewriter
+        treatment. This is the only place on the site where these typefaces
+        appear.
+      </p>
+    </section>
+
+    <!-- =========================================================
+         FOOTER READOUT
+         ========================================================= -->
+    <section class="sg-section">
+      <h2 class="section-label">Component — Footer Readout</h2>
+      <p class="sg-note">
+        A single justified mono sentence containing the studio name, location
+        (linked to <code>/acknowledge</code>), live date/time, and current
+        weather. The location, date/time and weather are <em>not</em> bold;
+        emphasis comes from a darker ink colour (<code>--ink-soft</code>)
+        against the surrounding <code>--ink-mute</code> prose.
+      </p>
+      <p class="sg-note">
+        Weather is fetched client-side from <a href="https://open-meteo.com" rel="external">Open-Meteo</a> (CC BY 4.0). The studio location, latitude/longitude, and timezone are configured in <code>src/layouts/Base.astro</code> via the <code>STUDIO</code> constant.
+      </p>
+    </section>
+
+    <!-- =========================================================
+         VOICE
+         ========================================================= -->
+    <section class="sg-section">
+      <h2 class="section-label">Voice</h2>
+      <ul class="sg-list">
+        <li><strong>Plain. Specific. Short where possible.</strong> Drop marketing words: <em>solutions, leverage, innovative, journey</em>. Use the actual thing instead.</li>
+        <li><strong>"We" not "I", except in memos.</strong> The studio is the first-person plural. Memo bylines (the <code>author:</code> frontmatter) can be first-person singular.</li>
+        <li><strong>No emoji. No exclamation marks.</strong> One acceptable exception: the working principles use commands ("Be competent and committed.") with full stops, not bangs.</li>
+        <li><strong>Em-dashes are fine, generously.</strong> Use a real em-dash (—), not a hyphen.</li>
+        <li><strong>Wadawurrung Country</strong> when referring to location. Not Ballarat.</li>
+      </ul>
+    </section>
+
+    <!-- =========================================================
+         ROUTES
+         ========================================================= -->
+    <section class="sg-section">
+      <h2 class="section-label">Routes</h2>
+      <table class="sg-table">
+        <thead><tr><th>Path</th><th>File</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><code>/</code></td><td><code>pages/index.astro</code></td><td>Homepage. Hero + ventures index + (hidden) projects.</td></tr>
+          <tr><td><code>/about</code></td><td><code>pages/about.astro</code></td><td>Long-form. Linked from nav as "Info".</td></tr>
+          <tr><td><code>/memo</code></td><td><code>pages/memo/index.astro</code></td><td>Memo index. Posts grouped by year.</td></tr>
+          <tr><td><code>/memo/[slug]</code></td><td><code>pages/memo/[...slug].astro</code></td><td>Individual memo. Uses memo hero treatment.</td></tr>
+          <tr><td><code>/acknowledge</code></td><td><code>pages/acknowledge.astro</code></td><td>Acknowledgement of Country.</td></tr>
+          <tr><td><code>/style</code></td><td><code>pages/style.astro</code></td><td>This page. <code>noindex</code> + blocked in <code>robots.txt</code>.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+  </article>
+</Base>
+
+<style>
+  .styleguide {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 var(--gutter) 6rem;
+  }
+
+  .styleguide__header {
+    margin: 1rem 0 4rem;
+  }
+
+  .styleguide__lede {
+    margin-top: 1.2rem;
+    max-width: 60ch;
+    color: var(--ink-soft);
+  }
+
+  .sg-section {
+    margin: 0 0 4rem;
+  }
+
+  .sg-h3 {
+    font-family: var(--display);
+    font-size: var(--t-md);
+    margin: 2rem 0 1rem;
+  }
+
+  .sg-note {
+    margin: 0 0 1rem;
+    color: var(--ink-soft);
+    max-width: 64ch;
+  }
+
+  .sg-note + .sg-note {
+    margin-top: 0.5rem;
+  }
+
+  .sg-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--body);
+    font-size: var(--t-sm);
+    margin: 0.6rem 0 1.4rem;
+  }
+
+  .sg-table th,
+  .sg-table td {
+    text-align: left;
+    padding: 0.65rem 0.8rem 0.65rem 0;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+
+  .sg-table th {
+    font-family: var(--mono);
+    font-size: var(--t-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-mute);
+    font-weight: 500;
+    border-bottom: 1px solid var(--ink-soft);
+  }
+
+  .sg-table code {
+    font-family: var(--mono);
+    font-size: 0.86em;
+    color: var(--ink);
+    background: var(--paper-deep);
+    padding: 0.05em 0.35em;
+    border-radius: 1px;
+    white-space: nowrap;
+  }
+
+  .sg-swatch {
+    display: inline-block;
+    width: 2.4rem;
+    height: 1.2rem;
+    vertical-align: middle;
+    border: 1px solid var(--rule);
+  }
+
+  .sg-specimen {
+    margin: 1.6rem 0;
+    padding: 1.4rem 1.6rem;
+    background: var(--paper-deep);
+    border-left: 2px solid var(--ink-mute);
+  }
+
+  .sg-specimen__label {
+    font-family: var(--mono);
+    font-size: var(--t-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-mute);
+    margin: 0 0 0.8rem;
+  }
+
+  .sg-specimen__sample {
+    margin: 0;
+    color: var(--ink);
+  }
+
+  .sg-list {
+    margin: 0.4rem 0 1.4rem 0;
+    padding-left: 1.2rem;
+    max-width: 64ch;
+  }
+
+  .sg-list li {
+    margin-bottom: 0.5rem;
+    color: var(--ink-soft);
+  }
+
+  .sg-list strong {
+    color: var(--ink);
+  }
+
+  /* Inline code in prose */
+  .styleguide p code,
+  .styleguide li code {
+    font-family: var(--mono);
+    font-size: 0.88em;
+    background: var(--paper-deep);
+    padding: 0.05em 0.35em;
+    color: var(--ink);
+  }
+</style>
