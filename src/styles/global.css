@@ -627,6 +627,33 @@ hr {
   max-width: 760px;
 }
 
+.about-body blockquote {
+  border-left: 3px solid var(--accent);
+  margin: 1.6em 0;
+  padding: 0 0 0 1.1em;
+}
+
+.about-body blockquote p {
+  font-family: 'Special Elite', 'Courier Prime', 'Courier New', monospace;
+  font-size: 1.45rem;
+  line-height: 1.25;
+  margin: 0 0 0.5rem;
+  color: var(--ink);
+}
+
+.about-body blockquote footer {
+  margin-top: 0.9rem;
+}
+
+.about-body blockquote cite {
+  display: block;
+  font-family: 'Courier Prime', 'Courier New', monospace;
+  font-size: 1rem;
+  line-height: 1.7;
+  font-style: normal;
+  color: var(--ink-soft);
+}
+
 /* -------- working principles -------- */
 .principles {
   margin-top: 6rem;
